@@ -1,0 +1,6 @@
+title tehtävä 0.6: uuden noten lisäys SPA:ssa
+note over selain: käyttäjä painaa tallenna-nappia
+note over selain: lisätään note taulukkoon ja renderöidään
+selain->palvelin: HTTP POST https://fullstack-exampleapp.herokuapp.com/new_note_spa\n{content: ..., date: ...}
+note over palvelin: tallennetaan note
+palvelin-->selain: 201 created
