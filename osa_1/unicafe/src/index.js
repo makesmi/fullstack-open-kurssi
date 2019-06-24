@@ -10,6 +10,9 @@ const App = () => {
   const [bad, setBad] = useState(0)
 
   const increase = (variable, setter) => () => setter( variable + 1 )
+  const count = good + neutral + bad
+  const average = (good - bad) / count || 0
+  const positive = 100 * good / count || 0
 
   return (
     <div>
@@ -20,9 +23,14 @@ const App = () => {
       <Button text="bad" event={increase(bad, setBad)} />
 
       <h1>statistics</h1>
+
       <div>good {good}</div>
       <div>neutral {neutral}</div>
       <div>bad {bad}</div>
+
+      <div>all {count}</div>
+      <div>average {average}</div>
+      <div>positive {positive} %</div>
     </div>
   )
 }
