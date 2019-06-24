@@ -3,6 +3,8 @@ import ReactDOM from 'react-dom'
 
 const Button = ({text, event}) => <button onClick={event}>{text}</button>
 
+const Statistic = ({text, value}) => <div>{text} {value}</div>
+
 const Statistics = ({ good, neutral, bad }) => {
     const count = good + neutral + bad
     const average = (good - bad) / count || 0
@@ -14,13 +16,13 @@ const Statistics = ({ good, neutral, bad }) => {
 
     return (
         <div>
-            <div>good {good}</div>
-            <div>neutral {neutral}</div>
-            <div>bad {bad}</div>
+            <Statistic text="good" value={good} />
+            <Statistic text="neutral" value={neutral} />
+            <Statistic text="bad" value={bad} />
 
-            <div>all {count}</div>
-            <div>average {average}</div>
-            <div>positive {positive} %</div>
+            <Statistic text="all" value={count} />
+            <Statistic text="average" value={average} />
+            <Statistic text="positive" value={positive + " %"} />
         </div>
     )
 }
