@@ -8,13 +8,19 @@ const App = (props) => {
 
   const change = () => setSelected( Math.floor(Math.random() * count) )
   const vote = () => setVotes( votes.map((v, i) => i === selected ? v + 1 : v) )
+  const indices = [...Array(count).keys()]
+  const mostVotes = (a, b) => votes[a] > votes[b] ? a : b;
+  const bestAnectode = indices.reduce(mostVotes)
 
   return (
     <div>
+      <h1>Anectode of the day</h1>
       <p>{props.anecdotes[selected]}</p>
       <div>has {votes[selected]} votes</div>
       <div><button onClick={vote}>vote</button></div>
       <div><button onClick={change}>next</button></div>
+      <h1>Anectode with most votes</h1>
+      <p>{props.anecdotes[bestAnectode]}</p>
     </div>
   )
 }
