@@ -3,6 +3,24 @@ import ReactDOM from 'react-dom'
 
 const Button = ({text, event}) => <button onClick={event}>{text}</button>
 
+const Statistics = ({ good, neutral, bad }) => {
+    const count = good + neutral + bad
+    const average = (good - bad) / count || 0
+    const positive = 100 * good / count || 0
+
+    return (
+        <div>
+            <div>good {good}</div>
+            <div>neutral {neutral}</div>
+            <div>bad {bad}</div>
+
+            <div>all {count}</div>
+            <div>average {average}</div>
+            <div>positive {positive} %</div>
+        </div>
+    )
+}
+
 const App = () => {
   // tallenna napit omaan tilaansa
   const [good, setGood] = useState(0)
@@ -10,9 +28,7 @@ const App = () => {
   const [bad, setBad] = useState(0)
 
   const increase = (variable, setter) => () => setter( variable + 1 )
-  const count = good + neutral + bad
-  const average = (good - bad) / count || 0
-  const positive = 100 * good / count || 0
+
 
   return (
     <div>
@@ -24,13 +40,7 @@ const App = () => {
 
       <h1>statistics</h1>
 
-      <div>good {good}</div>
-      <div>neutral {neutral}</div>
-      <div>bad {bad}</div>
-
-      <div>all {count}</div>
-      <div>average {average}</div>
-      <div>positive {positive} %</div>
+      <Statistics good={good} neutral={neutral} bad={bad} />
     </div>
   )
 }
