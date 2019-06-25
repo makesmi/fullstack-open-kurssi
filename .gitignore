@@ -2,4 +2,5 @@ dist/
 build/
 nbproject/
 target/
+osa2/sovellus1/node_modules/
 build.xml
