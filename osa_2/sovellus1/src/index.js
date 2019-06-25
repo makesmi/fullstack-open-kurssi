@@ -17,15 +17,17 @@ const Content = (props) => (
     </div>
 )
 
-/*
-const Total = (props) => (
-    <p>Number of exercises {props.parts.map(p => p.exercises).reduce((a,b)=>a+b)}</p>
-)*/
+
+const Total = ({parts}) => {
+    const sum = parts.map(p => p.exercises).reduce((a,b)=>a+b)
+    return <p><b>Total of {sum} exercises</b></p>
+}
 
 const Course = (props) => (
     <> 
         <Header course={props.course.name} />
         <Content parts={props.course.parts} />
+        <Total parts={props.course.parts} />
     </>
 )
 
