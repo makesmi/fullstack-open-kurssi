@@ -1,5 +1,37 @@
-import React, {useState, useEffect} from 'react';
-import axios from 'axios';
+import React, {useState, useEffect} from 'react'
+import axios from 'axios'
+import apixuKey from './apixu_key'
+
+const Weather = ({ capital }) => {
+  const [weather, setWeather] = useState({
+    temperature: 0,
+    condition: '',
+    conditionText: '',
+    wind: 0,
+    direction: ''
+  })
+  
+  useEffect(() => {
+    axios
+      .get('http://api.apixu.com/v1/current.json?key=' + apixuKey + '&q=' + capital)
+      .then(response => setWeather({
+        temperature: response.data.current.temp_c,
+        condition: 'http:' + response.data.current.condition.icon,
+        conditionText: response.data.current.condition.text,
+        wind: response.data.current.wind_kph,
+        direction:  response.data.current.wind_dir
+      }))
+  }, [capital])
+
+  return (
+    <div>
+      <h2>Weather in {capital}</h2>
+      <div><b>temperature: </b>{weather.temperature} Celcius</div>
+      <img src={weather.condition} alt={weather.conditionText} />
+      <div><b>wind: </b>{weather.temperature} kph direction {weather.direction}</div>
+    </div>
+  )
+}
 
 const Country = ({ country }) => {
 
@@ -12,7 +44,8 @@ const Country = ({ country }) => {
       <ul>
         {country.languages.map(language => <li key={language.name}>{language.name}</li>)}
       </ul>
-      <img src={country.flag} height="100"/>
+      <img src={country.flag} height="100" alt={country.name + " flag"}/>
+      <Weather capital={country.capital} />
     </div>
   )
 }
@@ -20,7 +53,7 @@ const Country = ({ country }) => {
 const App = () => {
   const [countries, setCountries] = useState([])
   const [selection, setSelection] = useState({
-    searchText: '',
+    searchText: 'nami',
     selectedCountry: undefined
   })
 
