@@ -47,10 +47,14 @@ const App = () => {
       name: newName, 
       number: newNumber 
     }
-    setPersons(persons.concat(newPerson))
-    setNewName('')
-    setNewNumber('')
-
+    axios
+      .post('http://localhost:3001/persons', newPerson)
+      .then(response => response.data)
+      .then(addedPerson => {
+        setPersons(persons.concat(addedPerson))
+        setNewName('')
+        setNewNumber('')
+      })
   }
 
   const visiblePersons =  persons.filter(person => person.name.toLowerCase().indexOf(filterText) > -1)
