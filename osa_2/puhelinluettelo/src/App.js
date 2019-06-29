@@ -63,10 +63,12 @@ const App = () => {
   }
 
   const deletePerson = person => {
-    personService.deletePerson(person)
-      .then(() => {
-        setPersons(persons.filter(p => p.id !== person.id))
-      })
+    if(window.confirm(`Delete ${person.name} ?`)){
+      personService.deletePerson(person)
+        .then(() => {
+          setPersons(persons.filter(p => p.id !== person.id))
+        })
+    }
   }
 
   const visiblePersons =  persons.filter(person => person.name.toLowerCase().indexOf(filterText) > -1)
