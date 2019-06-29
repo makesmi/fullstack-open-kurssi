@@ -43,10 +43,23 @@ const App = () => {
   const changeNewNumber = event => setNewNumber(event.target.value)
   const changeFilterText = event => setFilterText(event.target.value.toLowerCase())
   
+  const changeNumber = person => {
+    const changedPerson = {...person, number: newNumber}
+    personService.changePerson(changedPerson).then(savedPerson => {
+      const replace = person => person.id === savedPerson.id
+      setPersons(persons.map(person => replace(person) ? savedPerson : person))
+      setNewName('')
+      setNewNumber('')
+    })
+  }
+
   const addPerson = event => {
     event.preventDefault()
-    if(persons.find(person => person.name === newName)) {
-      alert(`${newName} is already added to phonebook`)
+    const existingPerson = persons.find(person => person.name === newName)
+    if(existingPerson) {
+      if(window.confirm(`${newName} is already added to phonebook, replace the old number with a new one?`)){
+        changeNumber(existingPerson) 
+      }
       return
     }
     const newPerson = {
