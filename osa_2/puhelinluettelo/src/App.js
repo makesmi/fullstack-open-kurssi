@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react'
 import personService from './services/persons'
 
-const Notification = ({message}) => {
+const Notification = ({message, isError}) => {
   const notificationStyle = {
-    color: 'green',
+    color: isError ? 'red' : 'green',
     background: 'lightgrey',
     fontSize: 20,
     borderStyle: 'solid',
@@ -48,7 +48,11 @@ const App = () => {
   const [ newName, setNewName ] = useState('')
   const [ newNumber, setNewNumber ] = useState('')
   const [ filterText, setFilterText ] = useState('')
-  const [notificationMessage, setNotificationMessage] = useState(null)
+  const [notification, setNotification] = useState({
+    message: null,
+    error: false
+  })
+
 
   useEffect(() => {
     personService
@@ -59,6 +63,7 @@ const App = () => {
   const changeNewName = event => setNewName(event.target.value)
   const changeNewNumber = event => setNewNumber(event.target.value)
   const changeFilterText = event => setFilterText(event.target.value.toLowerCase())
+  const setNotificationMessage = message => setNotification({message, error: false})
   
   const changeNumber = person => {
     const changedPerson = {...person, number: newNumber}
@@ -69,6 +74,11 @@ const App = () => {
       setNewNumber('')
       setNotificationMessage(`Changed ${person.name}`)
       setTimeout(() => setNotificationMessage(null), 5000)
+    })
+    .catch(error => {
+      setNotification({message: `Information of ${person.name} has already been removed from server`, error: true})
+      setTimeout(() => setNotificationMessage(null), 5000)
+      setPersons(persons.filter(p => p.id !== person.id))
     })
   }
 
@@ -104,7 +114,12 @@ const App = () => {
           setNotificationMessage(`Deleted ${person.name}`)
           setTimeout(() => setNotificationMessage(null), 5000)
         })
-    }
+        .catch(error => {
+          setNotification({message: `Information of ${person.name} has already been removed from server`, error: true})
+          setTimeout(() => setNotificationMessage(null), 5000)
+          setPersons(persons.filter(p => p.id !== person.id))
+        })
+      }
   }
 
   const visiblePersons =  persons.filter(person => person.name.toLowerCase().indexOf(filterText) > -1)
@@ -112,7 +127,7 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
-      <Notification message={notificationMessage} />
+      <Notification message={notification.message} isError={notification.error} />
       <Filter filterText={filterText} changeFilterText={changeFilterText} />
       <h2>add a new</h2>
       <PersonForm addPerson={addPerson} 
