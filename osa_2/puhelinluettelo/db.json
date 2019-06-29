@@ -1,16 +1,6 @@
 {
   "persons": [
     {
-      "name": "Ada Lovelace",
-      "number": "39-44-5323523",
-      "id": 2
-    },
-    {
-      "name": "Mary Poppendieck",
-      "number": "39-23-6423122",
-      "id": 4
-    },
-    {
       "name": "Arto Rekonen",
       "number": "050 2392902",
       "id": 6
@@ -19,6 +9,11 @@
       "name": "Arto Renkonen",
       "number": "020 2312893",
       "id": 7
+    },
+    {
+      "name": "Pekka Ryhänen",
+      "number": "022 232199283",
+      "id": 8
     }
   ]
 }

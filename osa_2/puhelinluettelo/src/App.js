@@ -1,6 +1,22 @@
 import React, { useState, useEffect } from 'react'
 import personService from './services/persons'
 
+const Notification = ({message}) => {
+  const notificationStyle = {
+    color: 'green',
+    background: 'lightgrey',
+    fontSize: 20,
+    borderStyle: 'solid',
+    borderRadius: 5,
+    padding: 10,
+    marginBottom: 10
+  }
+
+  return message !== null ? (
+    <div style={notificationStyle}>{message}</div>
+  ) : null
+}
+
 const Filter = ({filterText, changeFilterText}) => (
   <div>
     filter shown with <input value={filterText} onChange={changeFilterText} />
@@ -32,6 +48,7 @@ const App = () => {
   const [ newName, setNewName ] = useState('')
   const [ newNumber, setNewNumber ] = useState('')
   const [ filterText, setFilterText ] = useState('')
+  const [notificationMessage, setNotificationMessage] = useState(null)
 
   useEffect(() => {
     personService
@@ -50,6 +67,8 @@ const App = () => {
       setPersons(persons.map(person => replace(person) ? savedPerson : person))
       setNewName('')
       setNewNumber('')
+      setNotificationMessage(`Changed ${person.name}`)
+      setTimeout(() => setNotificationMessage(null), 5000)
     })
   }
 
@@ -72,6 +91,8 @@ const App = () => {
         setPersons(persons.concat(addedPerson))
         setNewName('')
         setNewNumber('')
+        setNotificationMessage(`Added ${addedPerson.name}`)
+        setTimeout(() => setNotificationMessage(null), 5000)
       })
   }
 
@@ -80,6 +101,8 @@ const App = () => {
       personService.deletePerson(person)
         .then(() => {
           setPersons(persons.filter(p => p.id !== person.id))
+          setNotificationMessage(`Deleted ${person.name}`)
+          setTimeout(() => setNotificationMessage(null), 5000)
         })
     }
   }
@@ -89,6 +112,7 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
+      <Notification message={notificationMessage} />
       <Filter filterText={filterText} changeFilterText={changeFilterText} />
       <h2>add a new</h2>
       <PersonForm addPerson={addPerson} 
