@@ -17,8 +17,14 @@ const PersonForm = ({addPerson, newName, changeNewName, newNumber, changeNewNumb
     </form>
 )
 
-const Persons = ({persons}) => 
-  persons.map(person => <div key={person.name}>{person.name} {person.number}</div>)
+const Persons = ({persons, deletePerson}) => 
+  persons.map(person => (
+    <div key={person.name}>
+      {person.name} {person.number}
+      <button onClick={() => deletePerson(person)}>delete</button>
+    </div>
+  )
+)
 
 
 const App = () => {
@@ -56,6 +62,13 @@ const App = () => {
       })
   }
 
+  const deletePerson = person => {
+    personService.deletePerson(person)
+      .then(() => {
+        setPersons(persons.filter(p => p.id !== person.id))
+      })
+  }
+
   const visiblePersons =  persons.filter(person => person.name.toLowerCase().indexOf(filterText) > -1)
 
   return (
@@ -67,7 +80,7 @@ const App = () => {
           newName={newName} changeNewName={changeNewName} 
           newNumber={newNumber} changeNewNumber={changeNewNumber} />
       <h2>Numbers</h2>
-      <Persons persons={visiblePersons} />
+      <Persons persons={visiblePersons} deletePerson={deletePerson} />
     </div>
   )
 
