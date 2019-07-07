@@ -104,6 +104,10 @@ const App = () => {
         setNotificationMessage(`Added ${addedPerson.name}`)
         setTimeout(() => setNotificationMessage(null), 5000)
       })
+      .catch(error => {
+        const message = error.response.data.error
+        setNotification({message, error: true})
+      })
   }
 
   const deletePerson = person => {
@@ -126,7 +130,7 @@ const App = () => {
 
   return (
     <div>
-      <h2>Phonebook</h2>
+      <h2>Phonebook!</h2>
       <Notification message={notification.message} isError={notification.error} />
       <Filter filterText={filterText} changeFilterText={changeFilterText} />
       <h2>add a new</h2>
